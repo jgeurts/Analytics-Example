@@ -1,0 +1,5 @@
+[external]
+url = //twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css
+
+[assets]
+bootstrap-responsive.css

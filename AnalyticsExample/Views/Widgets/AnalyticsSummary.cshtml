@@ -1,0 +1,120 @@
+﻿@model AnalyticsSummary
+<div id="AnalyticsSummaryWidgetContent">
+	<h6 class="alert-heading">Visits Over the Past 30 Days</h6>
+
+	<span class="ga_visits" rel="tooltip" data-placement="in top" title="The most visits on a single day was @Model.Visits.Max(). Yesterday there were @Model.Visits.Skip(Model.Visits.Count() - 2).First().ToString("N0") visits."></span>
+
+	<h6 class="alert-heading">Site Usage</h6>
+	<table class="table table-bordered table-condensed">
+		<tbody>
+			<tr>
+				<th rel="tooltip" title="Total number of visits">Visits</th>
+				<td>@Model.TotalVisits.ToString("N0")</td>
+				<th rel="tooltip" title="The percentage of single-page visits (i.e. visits in which the person left your site from the entrance page)">Entrance Bounce Rate</th>
+				<td>@Model.EntranceBounceRate.ToString("N2")%</td>
+			</tr>
+			<tr>
+				<th rel="tooltip" title="The total number of pageviews for the website">Page Views</th>
+				<td>@Model.TotalPageViews.ToString("N0")</td>
+				<th rel="tooltip" title="The percentage of site exits that occurred out of the total page views">Exit Rate Percentage</th>
+				<td>@Model.PercentExitRate.ToString("N2")%</td>
+			</tr>
+			<tr>
+				<th rel="tooltip" title="The average number of pages viewed during a visit to your site. Repeated views of a single page are counted">Pages Per Visit</th>
+				<td>@Model.PageviewsPerVisit.ToString("N2")</td>
+				<th rel="tooltip" title="The average amount of time visitors spent on the site">Average Time On Site</th>
+				<td>@Model.AverageTimeOnSite.ToSmallTime()</td>
+			</tr>
+			<tr>
+				<th rel="tooltip" title="The percentage of visits by people who had never visited the site before">% New Visits</th>
+				<td>@Model.PercentNewVisits.ToString("N2")%</td>
+				<th rel="tooltip" title="The average amount of time it takes for pages to load, from initiation of the pageview (e.g. click on a page link) to load completion in the browser.">Average Page Load Time</th>
+				<td>@Model.AveragePageLoadTime.ToSmallTime(true)</td>
+			</tr>
+		</tbody>
+
+	</table>
+
+	<h6 class="alert-heading">Top Pages</h6>
+	@if (Model.PageViews.Any()) {
+		<table class="table table-bordered table-condensed">
+			<thead>
+				<tr>
+					<th>Page</th>
+					<th># of Visits</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var page in Model.PageViews.OrderByDescending(x => x.Value).Take(5)) {
+					<tr>
+						<th rel="tooltip" title="@Model.PageTitles[page.Key]"><a href="@page.Key">@page.Key</a></th>
+						<td>@page.Value.ToString("N0")</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	} else {
+		<p>There were no pageviews discoverd :(</p>
+	}	
+	<table style="width:100%">
+		<td style="width:50%;padding-right:1%">
+			<h6 class="alert-heading">Top Referrers</h6>
+			@if (Model.TopReferrers.Any()) {
+				<table class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>Url</th>
+							<th># of Visits</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model.TopReferrers.OrderByDescending(x => x.Value).Take(5)) {
+							<tr>
+								<th rel="tooltip"><a href="http://@item.Key">@item.Key</a></th>
+								<td>@item.Value.ToString("N0")</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			} else {
+				<p>There were no referrers discoverd :(</p>
+			}	
+		</td>
+		<td style="width:50%;padding-left:1%">
+			<h6 class="alert-heading">Top Searches</h6>
+			@if (Model.TopReferrers.Any()) {
+				<table class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th>Term</th>
+							<th># of Searches</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model.TopSearches.OrderByDescending(x => x.Value).Take(5)) {
+							<tr>
+								<th rel="tooltip">@item.Key</th>
+								<td>@item.Value.ToString("N0")</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			} else {
+				<p>There were no searches discoverd :(</p>
+			}	
+		</td>
+	</table>
+
+	<small class="footerRight">Cached at @DateTime.Now.ToSmallTime() - <a href="#" rel="refresh">Refresh</a></small>
+</div>
+<script>var ga_visits = [@string.Join(",", Model.Visits)];
+$(function() {
+	$("#AnalyticsSummaryWidgetContent [rel='tooltip']").tooltip();
+	// Show the tooltip when moused over the data cell too
+	$("#AnalyticsSummaryWidgetContent table").on('mouseover', 'td', function() {
+		$(this).prev().tooltip('show');
+	}).on('mouseout', 'td', function() {
+		$(this).prev().tooltip('hide');
+	});		
+});
+</script>

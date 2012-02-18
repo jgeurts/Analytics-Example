@@ -1,0 +1,35 @@
+﻿@model Config
+@{
+    ViewBag.Title = "Configuration";
+	ViewBag.Nav = Navigation.Config;
+}
+
+@if (Model.Sites.Any())
+{
+	using (Html.BeginForm("Config", "Home", FormMethod.Post, new { @class = "form-horizontal" })) {
+		<fieldset>
+			<legend>Analytics Settings</legend>
+			<div class="control-group">
+				@Html.LabelFor(x => x.SiteId)
+				<div class="controls">
+					<select name="SiteId">
+						@foreach (var account in Model.Sites.OrderBy(x => x.Key))
+						{
+							<optgroup label="@account.Key">
+								@foreach (var site in account.Value.OrderBy(x => x.Value))
+								{
+									<option value="@site.Key">@site.Value</option>
+								}
+							</optgroup>
+						}
+					</select> @Html.ValidationMessageFor(x => x.SiteId)
+				</div>
+			</div>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary">Save changes</button>
+			</div>
+		</fieldset>
+	}
+} else {
+	<p>It seems that you have no analytics sites setup with your account.  This cannot be :)</p>
+}

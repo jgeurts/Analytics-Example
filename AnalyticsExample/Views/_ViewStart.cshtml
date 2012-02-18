@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+	try
+	{
+		Bundles.Reference("~/Content/js/" + ViewContext.RouteData.Values["controller"]);
+	}
+	catch (ArgumentException)
+	{
+		// Means the location does not exist
+	}
+}

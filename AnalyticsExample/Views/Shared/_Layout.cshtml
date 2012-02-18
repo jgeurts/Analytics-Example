@@ -1,0 +1,45 @@
+﻿@{
+	Bundles.Reference("~/Content/css/Shared/Site.css");
+	Bundles.Reference("~/Content/js/jquery", "head");
+}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>@ViewBag.Title</title>
+
+		<!--[if lt IE 9]>
+		  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+		@Bundles.RenderStylesheets()
+		@Bundles.RenderScripts("head")
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="navbar">
+				<div class="navbar-inner">
+					<div class="container">
+						<a class="brand" href="@Url.Content("~/")">Analytics Example</a>
+						<div class="nav-collapse">
+							<ul class="nav">
+								<li @if (ViewBag.Nav == Navigation.Home) {<text>class="active"</text>}><a href="@Url.Content("~/")">Home</a></li>
+								<li @if (ViewBag.Nav == Navigation.Config) {<text>class="active"</text>}><a href="@Url.Content("~/Home/Config")">Configuration</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			@RenderBody()
+			
+			<hr />
+			<footer>
+				<a href="https://github.com/jgeurts/Analytics-Example" style="float:right">View source</a>
+				<p>By: <a href="http://biasecurities.com">Jim Geurts</a></p>
+			</footer>
+		</div>
+	</body>
+	@Bundles.RenderScripts()
+</html>

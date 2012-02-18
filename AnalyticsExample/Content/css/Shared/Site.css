@@ -1,0 +1,46 @@
+/*
+@reference ~/Content/css/Bootstrap
+@reference ~/Content/css/Bootstrap-responsive
+*/
+.alert {
+  background-color: #f7f7f7;
+  border-color: #ddd;
+}
+.alert, .alert .alert-heading {
+  color: #6D6E71;
+}
+h4.alert-heading {
+	border-bottom: 1px solid #eaeaea;
+	padding-bottom: 4px;
+	margin-bottom: 4px;
+}
+.alert h6 {
+	margin-top: 15px;
+}
+table.table td {
+	width: 40%;
+	background-color:#fff;
+}
+table.table th {
+	width: auto;
+	white-space: nowrap;
+	background-color: #eee;
+}
+table.table thead th {
+	background-color: #ddd;
+	border-left: 1px solid #ccc
+}
+table.table thead th:first-of-type {
+	border-left-width: 0px;
+}
+small.footerRight {
+	font-size: xx-small;
+	text-align: right;
+	display:block;
+}
+.ga_visits {
+	position: relative;
+}
+.ga_visits .tooltip-arrow {
+	display: none;
+}
